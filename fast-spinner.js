@@ -10,7 +10,8 @@
 	'use strict'
 
 	var COUNTER = 0;
-	var template =
+	var MAXLAYERS = 4;
+	var BASETEMPLATE =
 	'	<div class="spinner-layer">' +
 	'		<div class="circle-clipper left">' +
 	'			<div class="circle fit"></div>' +
@@ -34,20 +35,73 @@
 	}
 	
 	function color(color) {
-		console.log("funct color: ", this);
 		var spinnerLayers = document.querySelectorAll("#" + this.id + " .spinner-layer");
 
 		for(var i = 0; i < spinnerLayers.length; i++) {
 			addClass.call(spinnerLayers[i], "mono");
 			createCustomColor.call(spinnerLayers[i], color);
 		}
+		return this;
 	}
 
-	function colorPattern(colors) {
+	function addLayers(numberOfLayers) {
 		var spinnerLayers = document.querySelectorAll("#" + this.id + " .spinner-layer");
-		colors.forEach(function(color, index) {
-			changeColor.call(spinnerLayers[index], color);
-		});
+		var i;
+		if (spinnerLayers.length <= numberOfLayers) {
+			if (numberOfLayers > MAXLAYERS) numberOfLayers = MAXLAYERS;
+			i = numberOfLayers - spinnerLayers.length; //Num of layers to be create
+
+			while(i--) {
+				this.template += BASETEMPLATE;
+			}
+			this.element.innerHTML = this.template;
+		}
+		// numberoflayers mayor que maxlayers pero
+		// numero real de layers en el template es menor de maxlayers
+		// ADD THE BASE TEMPLATES TILL MAXLAYERS
+
+		// numberoflayers mayor que maxlayers y
+		// numero real de layers en el template igual a maxlayers
+		// NO ADD MORE BASE TEMPLATES
+
+		// numberoflayers menor que maxlayers
+		// ADD THE BASE TEMPLATES TILL numberoflayers
+	}
+
+
+	function colorPattern(colors) {
+		var spinnerLayers;
+		var classNames = {
+			0: 'first-elem',
+			1: 'second-elem',
+			2: 'third-elem',
+			3: 'fourth-elem'
+		}
+		switch (colors.length) {
+			case 1:
+				for(var i = 0; i < 4; i++) {
+					colors.push(colors[0]);
+				}
+				break;
+			case 2:
+				colors.forEach(function (color){
+					colors.push(color);
+				});
+				break;
+			case 3:
+				colors.push(colors[2]);
+				break;
+		}
+		
+		addLayers.call(this, colors.length);
+		spinnerLayers = document.querySelectorAll("#" + this.id + " .spinner-layer");
+
+		for(var i = 0; i < spinnerLayers.length; i++) {
+			if (spinnerLayers.length <= MAXLAYERS) {
+				createCustomColor.call(spinnerLayers[i], colors[i]);
+				addClass.call(spinnerLayers[i], classNames[i]);
+			}
+		}
 		return this;
 	}
 
@@ -166,7 +220,7 @@
 
 		try {
 			var placeholder = document.getElementById(args.id);
-			placeholder.innerHTML = template;
+			placeholder.innerHTML = BASETEMPLATE;
 		} catch(e) {
 			console.error("no ID attribute");
 		}
@@ -178,6 +232,7 @@
 			color: color,
 			colorPattern: colorPattern,
 			remove: remove,
+			template: BASETEMPLATE,
 			hide: hide,
 			show: show
 		}

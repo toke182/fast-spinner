@@ -3,11 +3,11 @@
   <link rel="stylesheet" href="fast-spinner.css">
 </head>
 <body>
-  <div style="width:100px;position:relative;height:100px;" id="sdf1"></div>
-  <div style="width:100px;position:relative;height:100px;" id="sdf2"></div>
-  <div style="width:100px;position:relative;height:100px;" id="sdf3"></div>
+  <div class="spinnerContainer" style="width:100px;position:relative;height:100px;" id="sdf1"></div>
+  <div class="spinnerContainer" style="width:100px;position:relative;height:100px;" id="sdf2"></div>
+  <div class="spinnerContainer" style="width:100px;position:relative;height:100px;" id="sdf3"></div>
 
-  <div style="width:100px;position:relative;height:100px;" id="sdf4"></div>
+  <div class="spinnerContainer" style="width:100px;position:relative;height:100px;" id="sdf4"></div>
 </body>
 <script src='fast-spinner.js'></script>
 <script>
@@ -22,31 +22,31 @@
   // Write Test cases
 
   // Simplify the template to only 1 block
-  var p1 = fastSpinner({"id": "sdf1"});
-  var p2 = fastSpinner({"id": "sdf2"});
+  var p1 = new fastSpinner({"id": "sdf1"});
+  var p2 = new fastSpinner({"id": "sdf2"});
   var p3 = fastSpinner({"id": "sdf3"});
   var p4 = fastSpinner({"id": "sdf4"});
   
   // SHOW AND HIDE EXAMPLES
-  setTimeout(function(){p4.hide()}, 1000);
-  setTimeout(function(){p4.show()}, 3000);
+  // setTimeout(function(){p4.hide()}, 1000);
+  // setTimeout(function(){p4.show()}, 3000);
   
 
   // COLOR EXAMPLES
-  p1.color("#db4437");
-  p2.color("yellow");
+  // p1.color("#db4437");
+  p2.color("#db4437");
   p3.color("orange");
-  p4.color("black");
+  p4.color("pink");
   
-
   // COLOR PATTERNS EXAMPLE
-  // p1.colorPattern(["blue", "red", "yellow", "green"]);
-  // p2.colorPattern(["green", "yellow", "red", "blue"]);
-  // p1.colorPattern(["#fff", #gegege, #gggggg, #aaaaaa]);
+  setTimeout(function(){
+    p2.colorPattern(["blue", "red", "green", "yellow"]);
+    // p4.colorPattern(["blue", "red", "green", "yellow"]);
+  }, 3000);
 
   // COLOR REMOVE EXAMPLE
-  setTimeout(function(){p3.remove()}, 5000);
-
+  setTimeout(function(){p3.hide()}, 5000);
+  setTimeout(function(){p3.show()}, 7000);
 
 </script>
 </html>
