@@ -38,7 +38,6 @@
 		var spinnerLayers = document.querySelectorAll("#" + this.id + " .spinner-layer");
 
 		for(var i = 0; i < spinnerLayers.length; i++) {
-			addClass.call(spinnerLayers[i], "mono");
 			createCustomColor.call(spinnerLayers[i], color);
 		}
 		return this;
