@@ -34,7 +34,7 @@
 		css(this, {"border-color": color});
 	}
 	
-	function color(color) {
+	function planeColor(color) {
 		var spinnerLayers = document.querySelectorAll("#" + this.id + " .spinner-layer");
 
 		for(var i = 0; i < spinnerLayers.length; i++) {
@@ -46,25 +46,17 @@
 	function addLayers(numberOfLayers) {
 		var spinnerLayers = document.querySelectorAll("#" + this.id + " .spinner-layer");
 		var i;
-		if (spinnerLayers.length <= numberOfLayers) {
-			if (numberOfLayers > MAXLAYERS) numberOfLayers = MAXLAYERS;
-			i = numberOfLayers - spinnerLayers.length; //Num of layers to be create
+		this.template = this.template || "";
 
-			while(i--) {
-				this.template += BASETEMPLATE;
-			}
-			this.element.innerHTML = this.template;
+		if (spinnerLayers.length === numberOfLayers) return;
+		
+		if (numberOfLayers > MAXLAYERS) numberOfLayers = MAXLAYERS;
+		i = numberOfLayers - spinnerLayers.length; //Num of layers to be create
+
+		while(i--) {
+			this.template += BASETEMPLATE;
 		}
-		// numberoflayers mayor que maxlayers pero
-		// numero real de layers en el template es menor de maxlayers
-		// ADD THE BASE TEMPLATES TILL MAXLAYERS
-
-		// numberoflayers mayor que maxlayers y
-		// numero real de layers en el template igual a maxlayers
-		// NO ADD MORE BASE TEMPLATES
-
-		// numberoflayers menor que maxlayers
-		// ADD THE BASE TEMPLATES TILL numberoflayers
+		this.element.innerHTML = this.template;
 	}
 
 
@@ -208,32 +200,45 @@
 /* CONSTRUCTOR */
 
 	return function (args) {
-		args = args || {};
-
-		// var settings = {
-		// 	id: 'sdf' + (++COUNTER), 
+		var me = this;
+		me.id = args.id;
+		me.element = document.getElementById(me.id);
+		me.element.innerHTML = BASETEMPLATE;
+		
+		// var defaultSettings = {
+		// 	colorPattern: ["blue", "red", "green", "yellow"],
+		// 	hide: false
 		// };
 
-		// args = extend(settings, args);
+		var constructionCalls = {
+			hide: function (hidden) {
+				hidden ? hide.call(me) : show.call(me);
+			},
+			colorPattern: function (colors) {
+				colorPattern.call(me, colors);
+			},
+			color: function (color) {
+				planeColor.call(me, color);
+			}
+		};
+		
 		// extend args with settings
+		// args = extend(args, defaultSettings);
 
-		try {
-			var placeholder = document.getElementById(args.id);
-			placeholder.innerHTML = BASETEMPLATE;
-		} catch(e) {
-			console.error("no ID attribute");
+		for(var key in args) { 
+			if (constructionCalls.hasOwnProperty(key)) constructionCalls[key](args[key]);
 		}
 
 		return {
+			id: me.id,
+			element: me.element,
 			version: "1.0",
-			id: args.id,
-			element: placeholder,
-			color: color,
+			color: planeColor,
 			colorPattern: colorPattern,
 			remove: remove,
 			template: BASETEMPLATE,
 			hide: hide,
 			show: show
-		}
-	};
+		};
+	}
 });

@@ -19,20 +19,26 @@
   // Write Test cases
 
   // Simplify the template to only 1 block
-  var p1 = new fastSpinner({"id": "sdf1"});
-  var p2 = new fastSpinner({"id": "sdf2"});
-  var p3 = fastSpinner({"id": "sdf3"});
-  var p4 = fastSpinner({"id": "sdf4"});
+  var p1 = new fastSpinner({
+    "id": "sdf1",
+    "color": "red",
+    "colorPattern": ["blue", "red", "green", "yellow"],
+    "hide": false
+  });
+  
+  var p2 = new fastSpinner({"id": "sdf2", color:"red"});
+  var p3 = new fastSpinner({"id": "sdf3", color:"blue"});
+  var p4 = new fastSpinner({"id": "sdf4", color:"green"});
   
   // SHOW AND HIDE EXAMPLES
   // setTimeout(function(){p4.hide()}, 1000);
-  // setTimeout(function(){p4.show()}, 3000);
+  // setTimeout(function(){p4.show()}, 4000);
   
 
   // COLOR EXAMPLES
-  p1.color("#db4437");
-  p2.color("#db4437");
-  p3.color("orange");
+  // p1.color("#db4437");
+  // p2.color("#db4437");
+  p3.color("#db4437");
   p4.color("pink");
   
   // COLOR PATTERNS EXAMPLE
@@ -42,8 +48,7 @@
   }, 3000);
 
   // COLOR REMOVE EXAMPLE
-  setTimeout(function(){p3.hide()}, 5000);
-  setTimeout(function(){p3.show()}, 7000);
+  setTimeout(function(){p3.remove()}, 7000);
 
 </script>
 </html>
