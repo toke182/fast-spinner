@@ -53,7 +53,7 @@
 		if (numberOfLayers > MAXLAYERS) numberOfLayers = MAXLAYERS;
 		i = numberOfLayers - spinnerLayers.length; //Num of layers to be create
 
-		while(i--) {
+		while(numberOfLayers--) {
 			this.template += BASETEMPLATE;
 		}
 		this.element.innerHTML = this.template;
@@ -70,7 +70,7 @@
 		}
 		switch (colors.length) {
 			case 1:
-				for(var i = 0; i < 4; i++) {
+				for(var i = 0; i < 3; i++) {
 					colors.push(colors[0]);
 				}
 				break;
@@ -83,7 +83,11 @@
 				colors.push(colors[2]);
 				break;
 		}
-		
+		// Remove posible previous colors
+		while (this.firstChild) {
+    		this.removeChild(this.firstChild);
+		}
+		// Create new layers
 		addLayers.call(this, colors.length);
 		spinnerLayers = document.querySelectorAll("#" + this.id + " .spinner-layer");
 
